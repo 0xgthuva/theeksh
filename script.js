@@ -201,9 +201,9 @@ context.shadowOffsetY = 0;
         context.fillStyle = themedFill(opacity);
 
         if (window.innerWidth < 600) {
-            drawTextWithLineBreaks(["I love you so much {name}, more than", "all the time and space in the universe can contain"], canvas.width / 2, canvas.height / 2, fontSize, lineHeight);
+            drawTextWithLineBreaks(["I love you so much my babee my theeksh🧡, more than", "all the time and space in the universe can contain"], canvas.width / 2, canvas.height / 2, fontSize, lineHeight);
         } else {
-            context.fillText("I love you so much {name}, more than all the time and space in the universe can contain", canvas.width/2, canvas.height/2);
+            context.fillText("I love you so much my babee my theeksh🧡, more than all the time and space in the universe can contain", canvas.width/2, canvas.height/2);
         }
 
         opacity = opacity + 0.01;
@@ -222,13 +222,19 @@ context.shadowOffsetY = 0;
         secondOpacity = secondOpacity + 0.01;
     }
 
-    if(frameNumber >= 3000 && frameNumber < 99999){
+    if (frameNumber >= 3000 && frameNumber < 99999) {
         context.fillStyle = themedFill(thirdOpacity);
-        context.fillText("Happy Valentine's Day <3", canvas.width/2, (canvas.height/2 + 120));
+      
+        const x = canvas.width / 2;
+        const y = canvas.height / 2 + 120;
+      
+        context.fillText("Happy Valentine's Day <3", x, y);
+        context.fillText("and, the important question - Will you be my valentine?", x, y + (Math.min(30, window.innerWidth / 24) + 8)); // next line
+      
         thirdOpacity = thirdOpacity + 0.01;
-
         button.style.display = "block";
-    }   
+      }
+      
 
      // Reset the shadow effect after drawing the text
      context.shadowColor = "transparent";

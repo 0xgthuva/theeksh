@@ -89,7 +89,7 @@ function drawText() {
   var fontSize = Math.min(30, window.innerWidth / 24);
   var lineHeight = 8;
 
-  context.font = fontSize + "px Comic Sans MS";
+  context.font = `${fontSize}px "Allura", cursive`;
   context.textAlign = "center";
 
   // glow effect (peach/rose)

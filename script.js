@@ -61,7 +61,7 @@ function updateStars() {
 const button = document.getElementById("valentinesButton");
 
 button.addEventListener("click", () => {
-  if (button.textContent === "Click Me! ❤") {
+  if (button.textContent === "Yes, or No other option..❤") {
     button.textContent = "loading...";
     fetch("send_mail.php")
       .then((response) => {
@@ -292,8 +292,8 @@ function drawText() {
 
     drawLines(
       [
-        "I love you so much my babee my theeksh🧡, more than",
-        "all the time and space in the universe can contain"
+        "I love you so much my theeksh🧡",
+        ".."
       ],
       x,
       y,

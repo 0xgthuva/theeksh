@@ -210,6 +210,8 @@ function drawText() {
         secondOpacity = secondOpacity + 0.01;
     }
 
+    let hasRevealedCarousel = false;
+
     if(frameNumber >= 3000 && frameNumber < 99999){
         context.fillStyle = `rgba(45, 45, 255, ${thirdOpacity})`;
         context.fillText("Happy Valentine's Day <3", canvas.width/2, (canvas.height/2 + 120));
@@ -223,6 +225,8 @@ function drawText() {
      context.shadowBlur = 0;
      context.shadowOffsetX = 0;
      context.shadowOffsetY = 0;
+     if (!hasRevealedCarousel) {
+        hasRevealedCarousel = true;
      revealCarousel(); 
 }
 
@@ -335,3 +339,37 @@ function revealCarousel() {
 /// revealCarousel();
 
 
+let flkty = null;
+
+function revealCarousel(){
+  const el = document.getElementById("endCarousel");
+  if (!el) return;
+
+  // show it
+  el.classList.add("is-visible");
+
+  // initialize only once, and only when visible (important for correct sizing)
+  if (!flkty) {
+    flkty = new Flickity(el, {
+      lazyLoad: 2,
+      imagesLoaded: true,
+      wrapAround: true,
+      pageDots: true,
+      prevNextButtons: true,
+      cellAlign: "center",
+      contain: true
+    });
+  } else {
+    flkty.resize();
+  }
+}
+
+window.addEventListener("resize", function () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    baseFrame = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
+  
+    if (flkty) flkty.resize();
+  });
+  
+}

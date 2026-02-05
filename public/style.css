@@ -191,3 +191,51 @@
     }
   }
   
+
+  /* hide until reveal */
+#endCarousel{
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 240px);
+  transform: translateX(-50%);
+  width: min(92vw, 780px);
+  z-index: 10;
+}
+
+/* when revealed */
+#endCarousel.is-visible{
+  display: block;
+}
+
+/* cell sizing */
+.carousel-cell{
+  width: 100%;
+}
+
+/* image like the example (cover and consistent height) */
+.carousel-cell-image{
+  display: block;
+  width: 100%;
+  height: clamp(220px, 32vh, 420px);
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* optional: soften flickity buttons to match your peach/rose theme */
+#endCarousel .flickity-button{
+  background: rgba(255, 242, 238, 0.85);
+  box-shadow: 0 12px 30px rgba(70, 22, 36, 0.18);
+}
+#endCarousel .flickity-button:hover{
+  background: rgba(255, 242, 238, 0.95);
+}
+#endCarousel .flickity-button-icon{
+  fill: rgba(107, 58, 74, 0.95);
+}
+#endCarousel .flickity-page-dots .dot{
+  background: rgba(232, 137, 166, 0.85);
+}
+#endCarousel .flickity-page-dots .dot.is-selected{
+  background: rgba(107, 58, 74, 0.95);
+}

@@ -7,36 +7,44 @@
     <link rel="icon" href="public/images/favicon.png" type="image/x-icon" />  
     <title>Happy Valentine's Day</title>
     <link rel="stylesheet" href="public/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
   </head>
   <body>
     <canvas id="starfield"></canvas>
     <button id="valentinesButton">Click Me! ❤</button>
-    <!-- Carousel (hidden until the end) -->
-<section id="photoCarousel" class="carousel" aria-label="Photo carousel">
-  <div class="carousel__frame">
-    <button class="carousel__btn carousel__btn--prev" aria-label="Previous photo">‹</button>
+   <!-- Flickity Carousel (hidden until the end) -->
+<div
+id="endCarousel"
+class="carousel js-flickity"
+data-flickity='{
+  "lazyLoad": 2,
+  "imagesLoaded": true,
+  "wrapAround": true,
+  "pageDots": true,
+  "prevNextButtons": true,
+  "cellAlign": "center",
+  "contain": true
+}'
+>
+<!-- Flickity “cells” -->
+<div class="carousel-cell">
+  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic1.jpg" alt="Memory 1">
+</div>
 
-    <div class="carousel__track" id="carouselTrack">
-      <!-- Replace with your images -->
-      <figure class="carousel__slide">
-        <img src="./images/pic1.jpg" alt="Memory 1" loading="lazy">
-      </figure>
-      <figure class="carousel__slide">
-        <img src="./images/pic2.jpg" alt="Memory 2" loading="lazy">
-      </figure>
-      <figure class="carousel__slide">
-        <img src="./images/pic3.jpg" alt="Memory 3" loading="lazy">
-      </figure>
-      <figure class="carousel__slide">
-        <img src="./images/pic4.jpg" alt="Memory 4" loading="lazy">
-      </figure>
-    </div>
+<div class="carousel-cell">
+  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic2.jpg" alt="Memory 2">
+</div>
 
-    <button class="carousel__btn carousel__btn--next" aria-label="Next photo">›</button>
-  </div>
+<div class="carousel-cell">
+  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic3.jpg" alt="Memory 3">
+</div>
 
-  <div class="carousel__dots" id="carouselDots" aria-label="Carousel dots"></div>
-</section>
+<div class="carousel-cell">
+  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic4.jpg" alt="Memory 4">
+</div>
+</div>
     <script src="script.js"></script>
   </body>
 </html>

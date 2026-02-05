@@ -3,6 +3,9 @@ html, body {
   padding: 0 !important;
   overflow: hidden;
   cursor: url('./images/pointer.png'), auto;
+
+  /* optional: default page font */
+  font-family: "Courgette", cursive;
 }
 
 canvas {
@@ -10,7 +13,6 @@ canvas {
   height: auto;
   background: radial-gradient(circle at 50% 40%, #2a1218 0%, #12070b 55%, #070407 100%);
 }
-
 
 #valentinesButton {
   display: none;
@@ -23,10 +25,14 @@ canvas {
   cursor: pointer;
   height: 58px;
   font-size: 19px;
-  font-family: "Allura", cursive;
+
+  /* ✅ button should be Courgette */
+  font-family: "Courgette", cursive;
+
   border-radius: 10px;
   padding: 0 18px;   /* gives breathing room */
 
+  /* JS will override top dynamically, but keeping this is fine as a fallback */
   top: calc(50% + 150px);
   left: 50%;
   transform: translateX(-50%);

@@ -86,15 +86,13 @@ function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
 }
 
 function drawText() {
-  // +20% readability boost (bigger base + slightly higher cap)
+  // +20% readability boost
   var fontSize = Math.min(36, window.innerWidth / 20);
   var lineHeight = Math.round(fontSize * 0.28);
-
   const isMobile = window.innerWidth < 750;
 
-  // If you chose a Google Font, update it here:
-  // e.g. context.font = `${fontSize}px "Dancing Script", cursive`;
-  context.font = `${fontSize}px "Dancing Script", cursive`;
+  // Default font for ALL text (Courgette)
+  context.font = `${fontSize}px "Courgette", cursive`;
   context.textAlign = "center";
 
   // glow effect (peach/rose)
@@ -114,7 +112,6 @@ function drawText() {
     context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
     opacity = opacity - 0.01;
   }
-
   if (frameNumber == 500) opacity = 0;
 
   // 2
@@ -156,7 +153,6 @@ function drawText() {
     }
     opacity = opacity - 0.01;
   }
-
   if (frameNumber == 1000) opacity = 0;
 
   // 3
@@ -170,7 +166,6 @@ function drawText() {
     context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
     opacity = opacity - 0.01;
   }
-
   if (frameNumber == 1500) opacity = 0;
 
   // 4
@@ -184,7 +179,6 @@ function drawText() {
     context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
     opacity = opacity - 0.01;
   }
-
   if (frameNumber == 2000) opacity = 0;
 
   // 5
@@ -226,27 +220,23 @@ function drawText() {
     }
     opacity = opacity - 0.01;
   }
-
   if (frameNumber == 2500) opacity = 0;
 
-  // Final long message (stays on)
+  // Final long message (stays on) — forced line break (same everywhere)
   if (frameNumber > 2500 && frameNumber < 99999) {
     context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["I love you so much my babee my theeksh🧡, more than", "all the time and space in the universe can contain"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "I love you so much my babee my theeksh🧡, more than all the time and space in the universe can contain",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
+
+    drawTextWithLineBreaks(
+      [
+        "I love you so much my babee my theeksh🧡, more than",
+        "all the time and space in the universe can contain"
+      ],
+      canvas.width / 2,
+      canvas.height / 2,
+      fontSize,
+      lineHeight
+    );
+
     opacity = opacity + 0.01;
   }
 
@@ -271,7 +261,7 @@ function drawText() {
     secondOpacity = secondOpacity + 0.01;
   }
 
-  // Ending: split into two sections + button under section 2
+  // Ending: two sections in Allura + button under section 2
   if (frameNumber >= 3000 && frameNumber < 99999) {
     context.fillStyle = themedFill(thirdOpacity);
 
@@ -279,11 +269,14 @@ function drawText() {
     const startY = canvas.height / 2 + Math.round(fontSize * 3.8);
     let y = startY;
 
+    // Use Allura ONLY for these ending sections
+    context.font = `${Math.round(fontSize * 1.15)}px "Allura", cursive`;
+
     // Section 1
     context.fillText("Happy Valentine's Day <3", x, y);
 
     // gap before section 2
-    y += Math.round((fontSize + lineHeight) * 1.4);
+    y += Math.round((fontSize + lineHeight) * 1.5);
 
     // Section 2 (responsive)
     const questionLines = isMobile
@@ -298,6 +291,9 @@ function drawText() {
 
     button.style.display = "block";
     button.style.top = `${buttonY}px`;
+
+    // Restore Courgette for safety (anything after this)
+    context.font = `${fontSize}px "Courgette", cursive`;
 
     thirdOpacity = thirdOpacity + 0.01;
   }

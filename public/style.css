@@ -4,8 +4,8 @@ html, body {
   overflow: hidden;
   cursor: url('./images/pointer.png'), auto;
 
-  /* optional: default page font */
-  font-family: "Courgette", cursive;
+  /* Default page font (matches body text style) */
+  font-family: "Cormorant Garamond", serif;
 }
 
 canvas {
@@ -18,30 +18,36 @@ canvas {
   display: none;
   position: absolute;
 
-  background-color: #ffd6b8;   /* peach */
-  border: 2px solid #ffb38f;   /* warm rose border */
-  color: #3b0f17;              /* deep rose-brown text */
+  /* soft blush glass look */
+  background: rgba(255, 214, 184, 0.92);
+  border: 1px solid rgba(255, 179, 143, 0.9);
+  color: #3b0f17;
 
   cursor: pointer;
   height: 58px;
   font-size: 19px;
 
-  /* ✅ button should be Courgette */
-  font-family: "Courgette", cursive;
+  /* Button font should match body font */
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  letter-spacing: 0.4px;
 
-  border-radius: 10px;
-  padding: 0 18px;   /* gives breathing room */
+  border-radius: 12px;
+  padding: 0 18px;
 
-  /* JS will override top dynamically, but keeping this is fine as a fallback */
+  /* JS overrides top dynamically; keep as fallback */
   top: calc(50% + 150px);
   left: 50%;
   transform: translateX(-50%);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(4px);
 
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 #valentinesButton:hover {
-  background-color: #ffb38f;  /* deeper peach */
+  background: rgba(255, 179, 143, 0.95);
   color: #2a0b11;
   transform: translateX(-50%) scale(1.03);
 }

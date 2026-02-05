@@ -1,17 +1,22 @@
+// ===== Canvas setup =====
 var canvas = document.getElementById("starfield");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var context = canvas.getContext("2d");
 var stars = 500;
-var colorrange = [8, 18, 35]; // peach/rose/orange hues
+var colorrange = [8, 18, 35]; // warm peach/rose hues
 var starArray = [];
 
-// Peach/Rose/Mellow theme colors
+// ===== Theme =====
 const THEME = {
   text: { r: 255, g: 214, b: 184 },   // peach-rose mellow
   glow: "rgba(255, 170, 150, 0.95)",  // warm rose glow
-  glowBlur: 12
+};
+
+const FONTS = {
+  body: `"Cormorant Garamond", serif`, // readable romantic body
+  heading: `"Great Vibes", cursive`,   // romantic script for headings
 };
 
 function themedFill(alpha) {
@@ -22,13 +27,13 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Initialize stars with random opacity values
+// Initialize stars
 for (var i = 0; i < stars; i++) {
   var x = Math.random() * canvas.offsetWidth;
   var y = Math.random() * canvas.offsetHeight;
   var radius = Math.random() * 1.2;
   var hue = colorrange[getRandom(0, colorrange.length - 1)];
-  var sat = getRandom(50, 100);
+  var sat = getRandom(45, 95);
   var opacity = Math.random();
   starArray.push({ x, y, radius, hue, sat, opacity });
 }
@@ -40,6 +45,7 @@ var thirdOpacity = 0;
 
 var baseFrame = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
 
+// ===== Stars =====
 function drawStars() {
   for (var i = 0; i < stars; i++) {
     var star = starArray[i];
@@ -58,6 +64,7 @@ function updateStars() {
   }
 }
 
+// ===== Button =====
 const button = document.getElementById("valentinesButton");
 
 button.addEventListener("click", () => {
@@ -79,6 +86,7 @@ button.addEventListener("click", () => {
   }
 });
 
+// ===== Text helpers =====
 function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
   lines.forEach((line, index) => {
     context.fillText(line, x, y + index * (fontSize + lineHeight));
@@ -88,20 +96,21 @@ function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
 function drawText() {
   // +20% readability boost
   var fontSize = Math.min(36, window.innerWidth / 20);
-  var lineHeight = Math.round(fontSize * 0.28);
-  const isMobile = window.innerWidth < 750;
+  var lineHeight = Math.round(fontSize * 0.34);
+  const isMobile = window.innerWidth < 800;
 
-  // Default font for ALL text (Courgette)
-  context.font = `${fontSize}px "Courgette", cursive`;
   context.textAlign = "center";
 
-  // glow effect (peach/rose)
+  // Softer glow for readability (prevents smearing)
   context.shadowColor = THEME.glow;
-  context.shadowBlur = THEME.glowBlur;
+  context.shadowBlur = Math.round(fontSize * 0.45);
   context.shadowOffsetX = 0;
   context.shadowOffsetY = 0;
 
-  // 1
+  // Default font = romantic readable body
+  context.font = `${fontSize}px ${FONTS.body}`;
+
+  // ----- 1 -----
   if (frameNumber < 250) {
     context.fillStyle = themedFill(opacity);
     context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
@@ -114,7 +123,7 @@ function drawText() {
   }
   if (frameNumber == 500) opacity = 0;
 
-  // 2
+  // ----- 2 -----
   if (frameNumber > 500 && frameNumber < 750) {
     context.fillStyle = themedFill(opacity);
     if (isMobile) {
@@ -155,7 +164,7 @@ function drawText() {
   }
   if (frameNumber == 1000) opacity = 0;
 
-  // 3
+  // ----- 3 -----
   if (frameNumber > 1000 && frameNumber < 1250) {
     context.fillStyle = themedFill(opacity);
     context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
@@ -168,7 +177,7 @@ function drawText() {
   }
   if (frameNumber == 1500) opacity = 0;
 
-  // 4
+  // ----- 4 -----
   if (frameNumber > 1500 && frameNumber < 1750) {
     context.fillStyle = themedFill(opacity);
     context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
@@ -181,7 +190,7 @@ function drawText() {
   }
   if (frameNumber == 2000) opacity = 0;
 
-  // 5
+  // ----- 5 -----
   if (frameNumber > 2000 && frameNumber < 2250) {
     context.fillStyle = themedFill(opacity);
     if (isMobile) {
@@ -222,10 +231,9 @@ function drawText() {
   }
   if (frameNumber == 2500) opacity = 0;
 
-  // Final long message (stays on) — forced line break (same everywhere)
+  // ----- Final message (forced 2-line break everywhere) -----
   if (frameNumber > 2500 && frameNumber < 99999) {
     context.fillStyle = themedFill(opacity);
-
     drawTextWithLineBreaks(
       [
         "I love you so much my babee my theeksh🧡, more than",
@@ -236,18 +244,17 @@ function drawText() {
       fontSize,
       lineHeight
     );
-
     opacity = opacity + 0.01;
   }
 
-  // Second line appears
+  // ----- Second line (more breathing room) -----
   if (frameNumber >= 2750 && frameNumber < 99999) {
     context.fillStyle = themedFill(secondOpacity);
     if (isMobile) {
       drawTextWithLineBreaks(
         ["and I can't wait to spend all the time in", "the world to share that love with you!"],
         canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 2.1),
+        canvas.height / 2 + Math.round(fontSize * 2.4),
         fontSize,
         lineHeight
       );
@@ -255,47 +262,50 @@ function drawText() {
       context.fillText(
         "and I can't wait to spend all the time in the world to share that love with you!",
         canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 1.7)
+        canvas.height / 2 + Math.round(fontSize * 2.1)
       );
     }
     secondOpacity = secondOpacity + 0.01;
   }
 
-  // Ending: two sections in Allura + button under section 2
+  // ----- Ending: Great Vibes for romance + button under section 2 -----
   if (frameNumber >= 3000 && frameNumber < 99999) {
     context.fillStyle = themedFill(thirdOpacity);
 
     const x = canvas.width / 2;
-    const startY = canvas.height / 2 + Math.round(fontSize * 3.8);
+    const startY = canvas.height / 2 + Math.round(fontSize * 4.3);
     let y = startY;
 
-    // Use Allura ONLY for these ending sections
-    context.font = `${Math.round(fontSize * 1.15)}px "Allura", cursive`;
-
-    // Section 1
+    // Section 1 (bigger, elegant)
+    context.font = `${Math.round(fontSize * 1.55)}px ${FONTS.heading}`;
     context.fillText("Happy Valentine's Day <3", x, y);
 
-    // gap before section 2
-    y += Math.round((fontSize + lineHeight) * 1.5);
+    // gap
+    y += Math.round((fontSize + lineHeight) * 1.6);
 
-    // Section 2 (responsive)
+    // Section 2 (script, slightly smaller)
+    context.font = `${Math.round(fontSize * 1.25)}px ${FONTS.heading}`;
     const questionLines = isMobile
       ? ["and, the important question -", "Will you be my valentine?"]
       : ["and, the important question - Will you be my valentine?"];
 
-    drawTextWithLineBreaks(questionLines, x, y, fontSize, lineHeight);
+    // draw lines manually (so spacing matches heading font)
+    questionLines.forEach((line, idx) => {
+      context.fillText(line, x, y + idx * (Math.round(fontSize * 1.05) + lineHeight));
+    });
 
-    // Button under section 2
-    const questionHeight = questionLines.length * (fontSize + lineHeight);
-    const buttonY = y + questionHeight + Math.round(fontSize * 1.1);
+    // Button under section 2 (responsive)
+    const qLineStep = (Math.round(fontSize * 1.05) + lineHeight);
+    const questionHeight = questionLines.length * qLineStep;
+    const buttonY = y + questionHeight + Math.round(fontSize * 1.4);
 
     button.style.display = "block";
     button.style.top = `${buttonY}px`;
 
-    // Restore Courgette for safety (anything after this)
-    context.font = `${fontSize}px "Courgette", cursive`;
-
     thirdOpacity = thirdOpacity + 0.01;
+
+    // Restore body font for safety (if anything else draws later)
+    context.font = `${fontSize}px ${FONTS.body}`;
   }
 
   // Reset shadow effect
@@ -305,6 +315,7 @@ function drawText() {
   context.shadowOffsetY = 0;
 }
 
+// ===== Draw loop =====
 function draw() {
   context.putImageData(baseFrame, 0, 0);
   drawStars();
@@ -315,6 +326,7 @@ function draw() {
   window.requestAnimationFrame(draw);
 }
 
+// ===== Resize =====
 window.addEventListener("resize", function () {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;

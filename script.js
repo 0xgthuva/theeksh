@@ -86,10 +86,15 @@ function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
 }
 
 function drawText() {
-  var fontSize = Math.min(30, window.innerWidth / 24);
-  var lineHeight = 8;
+  // +20% readability boost (bigger base + slightly higher cap)
+  var fontSize = Math.min(36, window.innerWidth / 20);
+  var lineHeight = Math.round(fontSize * 0.28);
 
-  context.font = `${fontSize}px "Allura", cursive`;
+  const isMobile = window.innerWidth < 750;
+
+  // If you chose a Google Font, update it here:
+  // e.g. context.font = `${fontSize}px "Dancing Script", cursive`;
+  context.font = `${fontSize}px "Dancing Script", cursive`;
   context.textAlign = "center";
 
   // glow effect (peach/rose)
@@ -98,12 +103,12 @@ function drawText() {
   context.shadowOffsetX = 0;
   context.shadowOffsetY = 0;
 
+  // 1
   if (frameNumber < 250) {
     context.fillStyle = themedFill(opacity);
     context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
     opacity = opacity + 0.01;
   }
-
   if (frameNumber >= 250 && frameNumber < 500) {
     context.fillStyle = themedFill(opacity);
     context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
@@ -112,9 +117,10 @@ function drawText() {
 
   if (frameNumber == 500) opacity = 0;
 
+  // 2
   if (frameNumber > 500 && frameNumber < 750) {
     context.fillStyle = themedFill(opacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["amongst trillions and trillions of stars,", "over billions of years"],
         canvas.width / 2,
@@ -131,10 +137,9 @@ function drawText() {
     }
     opacity = opacity + 0.01;
   }
-
   if (frameNumber >= 750 && frameNumber < 1000) {
     context.fillStyle = themedFill(opacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["amongst trillions and trillions of stars,", "over billions of years"],
         canvas.width / 2,
@@ -154,12 +159,12 @@ function drawText() {
 
   if (frameNumber == 1000) opacity = 0;
 
+  // 3
   if (frameNumber > 1000 && frameNumber < 1250) {
     context.fillStyle = themedFill(opacity);
     context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
     opacity = opacity + 0.01;
   }
-
   if (frameNumber >= 1250 && frameNumber < 1500) {
     context.fillStyle = themedFill(opacity);
     context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
@@ -168,12 +173,12 @@ function drawText() {
 
   if (frameNumber == 1500) opacity = 0;
 
+  // 4
   if (frameNumber > 1500 && frameNumber < 1750) {
     context.fillStyle = themedFill(opacity);
     context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
     opacity = opacity + 0.01;
   }
-
   if (frameNumber >= 1750 && frameNumber < 2000) {
     context.fillStyle = themedFill(opacity);
     context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
@@ -182,9 +187,10 @@ function drawText() {
 
   if (frameNumber == 2000) opacity = 0;
 
+  // 5
   if (frameNumber > 2000 && frameNumber < 2250) {
     context.fillStyle = themedFill(opacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["and yet here I am to get the impossible", "chance to get to know you"],
         canvas.width / 2,
@@ -201,10 +207,9 @@ function drawText() {
     }
     opacity = opacity + 0.01;
   }
-
   if (frameNumber >= 2250 && frameNumber < 2500) {
     context.fillStyle = themedFill(opacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["and yet here I am to get the impossible", "chance to get to know you"],
         canvas.width / 2,
@@ -227,7 +232,7 @@ function drawText() {
   // Final long message (stays on)
   if (frameNumber > 2500 && frameNumber < 99999) {
     context.fillStyle = themedFill(opacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["I love you so much my babee my theeksh🧡, more than", "all the time and space in the universe can contain"],
         canvas.width / 2,
@@ -248,11 +253,11 @@ function drawText() {
   // Second line appears
   if (frameNumber >= 2750 && frameNumber < 99999) {
     context.fillStyle = themedFill(secondOpacity);
-    if (window.innerWidth < 600) {
+    if (isMobile) {
       drawTextWithLineBreaks(
         ["and I can't wait to spend all the time in", "the world to share that love with you!"],
         canvas.width / 2,
-        canvas.height / 2 + 60,
+        canvas.height / 2 + Math.round(fontSize * 2.1),
         fontSize,
         lineHeight
       );
@@ -260,7 +265,7 @@ function drawText() {
       context.fillText(
         "and I can't wait to spend all the time in the world to share that love with you!",
         canvas.width / 2,
-        canvas.height / 2 + 50
+        canvas.height / 2 + Math.round(fontSize * 1.7)
       );
     }
     secondOpacity = secondOpacity + 0.01;
@@ -271,29 +276,25 @@ function drawText() {
     context.fillStyle = themedFill(thirdOpacity);
 
     const x = canvas.width / 2;
-
-    // Start area for the ending text block
-    let y = canvas.height / 2 + 110;
+    const startY = canvas.height / 2 + Math.round(fontSize * 3.8);
+    let y = startY;
 
     // Section 1
     context.fillText("Happy Valentine's Day <3", x, y);
 
     // gap before section 2
-    y += (fontSize + lineHeight) * 1.3;
+    y += Math.round((fontSize + lineHeight) * 1.4);
 
-    // Section 2 (responsive lines)
-    let questionLines;
-    if (window.innerWidth < 600) {
-      questionLines = ["and, the important question -", "Will you be my valentine?"];
-    } else {
-      questionLines = ["and, the important question - Will you be my valentine?"];
-    }
+    // Section 2 (responsive)
+    const questionLines = isMobile
+      ? ["and, the important question -", "Will you be my valentine?"]
+      : ["and, the important question - Will you be my valentine?"];
 
     drawTextWithLineBreaks(questionLines, x, y, fontSize, lineHeight);
 
-    // place button below section 2
+    // Button under section 2
     const questionHeight = questionLines.length * (fontSize + lineHeight);
-    const buttonY = y + questionHeight + fontSize * 0.9;
+    const buttonY = y + questionHeight + Math.round(fontSize * 1.1);
 
     button.style.display = "block";
     button.style.top = `${buttonY}px`;

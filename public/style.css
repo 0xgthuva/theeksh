@@ -21,10 +21,11 @@ canvas {
   color: #3b0f17;              /* deep rose-brown text */
 
   cursor: pointer;
-  height: 50px;
-  font-size: 16px;
+  height: 58px;
+  font-size: 19px;
   font-family: "Allura", cursive;
   border-radius: 10px;
+  padding: 0 18px;   /* gives breathing room */
 
   top: calc(50% + 150px);
   left: 50%;

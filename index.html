@@ -1,50 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="https://raw.githubusercontent.com/sojijr/valentine-website/main/public/images/favicon.png">
-    <link rel="icon" href="public/images/favicon.png" type="image/x-icon" />  
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/sojijr/valentine-website/main/public/images/favicon.png" />
+    <link rel="icon" href="public/images/favicon.png" type="image/x-icon" />
     <title>Happy Valentine's Day</title>
-    <link rel="stylesheet" href="public/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
+    <link rel="stylesheet" href="public/style.css" />
+
+    <!-- Flickity -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   </head>
+
   <body>
     <canvas id="starfield"></canvas>
     <button id="valentinesButton">Click Me! ❤</button>
-   <!-- Flickity Carousel (hidden until the end) -->
-<div
-id="endCarousel"
-class="carousel js-flickity"
-data-flickity='{
-  "lazyLoad": 2,
-  "imagesLoaded": true,
-  "wrapAround": true,
-  "pageDots": true,
-  "prevNextButtons": true,
-  "cellAlign": "center",
-  "contain": true
-}'
->
-<!-- Flickity “cells” -->
-<div class="carousel-cell">
-  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic1.jpg" alt="Memory 1">
-</div>
 
-<div class="carousel-cell">
-  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic2.jpg" alt="Memory 2">
-</div>
+    <!-- Flickity Carousel (hidden until the end) -->
+    <div id="endCarousel" class="carousel">
+      <div class="carousel-cell">
+        <img class="carousel-cell-image" data-flickity-lazyload="public/images/pic1.jpg" alt="Memory 1" />
+      </div>
 
-<div class="carousel-cell">
-  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic3.jpg" alt="Memory 3">
-</div>
+      <div class="carousel-cell">
+        <img class="carousel-cell-image" data-flickity-lazyload="public/images/pic2.jpg" alt="Memory 2" />
+      </div>
 
-<div class="carousel-cell">
-  <img class="carousel-cell-image" data-flickity-lazyload="./images/pic4.jpg" alt="Memory 4">
-</div>
-</div>
-    <script src="script.js"></script>
+      <div class="carousel-cell">
+        <img class="carousel-cell-image" data-flickity-lazyload="public/images/pic3.jpg" alt="Memory 3" />
+      </div>
+
+      <div class="carousel-cell">
+        <img class="carousel-cell-image" data-flickity-lazyload="public/images/pic4.jpg" alt="Memory 4" />
+      </div>
+    </div>
+
+    <!-- If your JS is in /public, use public/script.js -->
+    <script src="public/script.js"></script>
   </body>
 </html>

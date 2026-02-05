@@ -1,198 +1,4 @@
-:root{
-    --peach-1:#fff2ee;
-    --peach-2:#ffd9cf;
-    --rose-1:#f7b2c4;
-    --rose-2:#e889a6;
-    --mauve:#6b3a4a;
-    --gold:#d9a441;
-    --cream:#fff9f7;
-    --shadow: 0 16px 50px rgba(70, 22, 36, 0.22);
-  }
-  
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: 100%;
-    overflow: hidden;
-    cursor: url('./images/pointer.png'), auto;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    background:
-      radial-gradient(1200px 800px at 20% 10%, rgba(255, 217, 207, 0.85), transparent 60%),
-      radial-gradient(900px 700px at 90% 30%, rgba(247, 178, 196, 0.50), transparent 55%),
-      linear-gradient(180deg, var(--peach-1), var(--cream));
-    color: var(--mauve);
-    position: relative;
-  }
-  
-  /* Subtle rose decorations (use your own png/svg paths) */
-  body::before,
-  body::after{
-    content:"";
-    position:absolute;
-    pointer-events:none;
-    opacity:0.22;
-    filter: drop-shadow(0 10px 24px rgba(70, 22, 36, 0.18));
-    background-repeat:no-repeat;
-    background-size: contain;
-    z-index: 1;
-  }
-  
-  
-  
-  canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: radial-gradient(900px 650px at 50% 40%, rgba(255, 217, 207, 0.10), rgba(17, 17, 17, 0.92));
-    position: relative;
-    z-index: 2; /* above background roses */
-  }
-  
-  /* Button theme */
-  #valentinesButton {
-    display: none;
-    position: absolute;
-    top: calc(50% + 150px);
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-  
-    height: 52px;
-    padding: 0 18px;
-  
-    border-radius: 14px;
-    border: 1px solid rgba(217, 164, 65, 0.55);
-    background: linear-gradient(135deg, rgba(255, 217, 207, 0.95), rgba(247, 178, 196, 0.92));
-    color: var(--mauve);
-  
-    font-size: 16px;
-    letter-spacing: 0.2px;
-  
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  
-    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  #valentinesButton:hover {
-    filter: brightness(1.03);
-    box-shadow: 0 20px 65px rgba(70, 22, 36, 0.25);
-    transform: translateX(-50%) translateY(-1px);
-  }
-  
-  #valentinesButton:active {
-    transform: translateX(-50%) translateY(1px);
-  }
-  
-  /* Carousel container */
-  .carousel{
-    display:none;
-    position:absolute;
-    left: 50%;
-    top: calc(50% + 225px);
-    transform: translateX(-50%);
-    width: min(92vw, 720px);
-    z-index: 6;
-  }
-  
-  .carousel.is-visible{ display:block; }
-  
-  .carousel__frame{
-    position: relative;
-    background: rgba(255, 249, 247, 0.70);
-    border: 1px solid rgba(217, 164, 65, 0.35);
-    border-radius: 18px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  
-  /* Track uses native scroll + snap for perfect mobile responsiveness */
-  .carousel__track{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    scroll-behavior:smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .carousel__track::-webkit-scrollbar{ display:none; }
-  
-  .carousel__slide{
-    scroll-snap-align:center;
-    flex: 0 0 100%;
-    margin: 0;
-  }
-  
-  .carousel__slide img{
-    width:100%;
-    height: clamp(180px, 28vh, 340px);
-    object-fit: cover;
-    display:block;
-  }
-  
-  /* Prev/Next buttons */
-  .carousel__btn{
-    position:absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    border-radius: 999px;
-    border: 1px solid rgba(217, 164, 65, 0.45);
-    background: rgba(255, 242, 238, 0.82);
-    color: var(--mauve);
-    font-size: 26px;
-    line-height: 1;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(70, 22, 36, 0.20);
-  }
-  
-  .carousel__btn--prev{ left: 10px; }
-  .carousel__btn--next{ right: 10px; }
-  
-  .carousel__btn:hover{
-    filter: brightness(1.03);
-  }
-  
-  /* Dots */
-  .carousel__dots{
-    display:flex;
-    justify-content:center;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .carousel__dot{
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(107, 58, 74, 0.35);
-    background: rgba(247, 178, 196, 0.55);
-    cursor:pointer;
-    padding: 0;
-  }
-  
-  .carousel__dot.is-active{
-    background: rgba(232, 137, 166, 0.95);
-    border-color: rgba(107, 58, 74, 0.55);
-  }
-  
-  /* Make sure carousel fits on small screens */
-  @media (max-width: 480px){
-    #valentinesButton{
-      font-size: 15px;
-      height: 50px;
-    }
-    .carousel{
-      top: calc(50% + 210px);
-    }
-  }
-  
-
-  /* hide until reveal */
+/* Flickity container hidden until reveal */
 #endCarousel{
   display: none;
   position: absolute;
@@ -203,17 +9,14 @@
   z-index: 10;
 }
 
-/* when revealed */
 #endCarousel.is-visible{
   display: block;
 }
 
-/* cell sizing */
 .carousel-cell{
   width: 100%;
 }
 
-/* image like the example (cover and consistent height) */
 .carousel-cell-image{
   display: block;
   width: 100%;
@@ -222,13 +25,10 @@
   border-radius: 18px;
 }
 
-/* optional: soften flickity buttons to match your peach/rose theme */
+/* Optional theme tweaks */
 #endCarousel .flickity-button{
   background: rgba(255, 242, 238, 0.85);
   box-shadow: 0 12px 30px rgba(70, 22, 36, 0.18);
-}
-#endCarousel .flickity-button:hover{
-  background: rgba(255, 242, 238, 0.95);
 }
 #endCarousel .flickity-button-icon{
   fill: rgba(107, 58, 74, 0.95);

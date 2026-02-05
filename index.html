@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://raw.githubusercontent.com/sojijr/valentine-website/main/public/images/favicon.png">
+    <link rel="icon" href="public/images/favicon.png" type="image/x-icon" />  
+    <title>Happy Valentine's Day</title>
+    <link rel="stylesheet" href="public/style.css">
+  </head>
+  <body>
+    <canvas id="starfield"></canvas>
+    <button id="valentinesButton">Click Me! ❤</button>
+    <!-- Carousel (hidden until the end) -->
+<section id="photoCarousel" class="carousel" aria-label="Photo carousel">
+  <div class="carousel__frame">
+    <button class="carousel__btn carousel__btn--prev" aria-label="Previous photo">‹</button>
+
+    <div class="carousel__track" id="carouselTrack">
+      <!-- Replace with your images -->
+      <figure class="carousel__slide">
+        <img src="./images/pic1.jpg" alt="Memory 1" loading="lazy">
+      </figure>
+      <figure class="carousel__slide">
+        <img src="./images/pic2.jpg" alt="Memory 2" loading="lazy">
+      </figure>
+      <figure class="carousel__slide">
+        <img src="./images/pic3.jpg" alt="Memory 3" loading="lazy">
+      </figure>
+      <figure class="carousel__slide">
+        <img src="./images/pic4.jpg" alt="Memory 4" loading="lazy">
+      </figure>
+    </div>
+
+    <button class="carousel__btn carousel__btn--next" aria-label="Next photo">›</button>
+  </div>
+
+  <div class="carousel__dots" id="carouselDots" aria-label="Carousel dots"></div>
+</section>
+    <script src="script.js"></script>
+  </body>
+</html>

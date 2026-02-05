@@ -1,16 +1,21 @@
 html, body {
   margin: 0 !important;
   padding: 0 !important;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   cursor: url('./images/pointer.png'), auto;
 
-  /* Default page font (matches body text style) */
   font-family: "Cormorant Garamond", serif;
+
+  /* fallback to avoid white edges */
+  background: #070407;
 }
 
 canvas {
-  width: 100%;
-  height: auto;
+  display: block;
+  width: 100vw;
+  height: 100vh;
   background: radial-gradient(circle at 50% 40%, #2a1218 0%, #12070b 55%, #070407 100%);
 }
 

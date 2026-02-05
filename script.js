@@ -1,22 +1,27 @@
 // ===== Canvas setup =====
-var canvas = document.getElementById("starfield");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const canvas = document.getElementById("starfield");
+const context = canvas.getContext("2d");
 
-var context = canvas.getContext("2d");
-var stars = 500;
-var colorrange = [8, 18, 35]; // warm peach/rose hues
-var starArray = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-// ===== Theme =====
+// ===== Stars =====
+const stars = 500;
+const colorrange = [8, 18, 35];
+let starArray = [];
+
 const THEME = {
-  text: { r: 255, g: 214, b: 184 },   // peach-rose mellow
-  glow: "rgba(255, 170, 150, 0.95)",  // warm rose glow
+  text: { r: 255, g: 214, b: 184 },
+  glow: "rgba(255, 170, 150, 0.95)",
 };
 
 const FONTS = {
-  body: `"Cormorant Garamond", serif`, // readable romantic body
-  heading: `"Great Vibes", cursive`,   // romantic script for headings
+  body: `"Cormorant Garamond", serif`,
+  heading: `"Great Vibes", cursive`,
 };
 
 function themedFill(alpha) {
@@ -27,41 +32,35 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Initialize stars
-for (var i = 0; i < stars; i++) {
-  var x = Math.random() * canvas.offsetWidth;
-  var y = Math.random() * canvas.offsetHeight;
-  var radius = Math.random() * 1.2;
-  var hue = colorrange[getRandom(0, colorrange.length - 1)];
-  var sat = getRandom(45, 95);
-  var opacity = Math.random();
-  starArray.push({ x, y, radius, hue, sat, opacity });
-}
-
-var frameNumber = 0;
-var opacity = 0;
-var secondOpacity = 0;
-var thirdOpacity = 0;
-
-var baseFrame = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
-
-// ===== Stars =====
-function drawStars() {
-  for (var i = 0; i < stars; i++) {
-    var star = starArray[i];
-    context.beginPath();
-    context.arc(star.x, star.y, star.radius, 0, 360);
-    context.fillStyle = "hsla(" + star.hue + ", " + star.sat + "%, 92%, " + star.opacity + ")";
-    context.fill();
+function generateStars() {
+  starArray = [];
+  for (let i = 0; i < stars; i++) {
+    starArray.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.2,
+      hue: colorrange[getRandom(0, colorrange.length - 1)],
+      sat: getRandom(45, 95),
+      opacity: Math.random(),
+    });
   }
+}
+generateStars();
+window.addEventListener("resize", generateStars);
+
+function drawStars() {
+  starArray.forEach(star => {
+    context.beginPath();
+    context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    context.fillStyle = `hsla(${star.hue}, ${star.sat}%, 92%, ${star.opacity})`;
+    context.fill();
+  });
 }
 
 function updateStars() {
-  for (var i = 0; i < stars; i++) {
-    if (Math.random() > 0.99) {
-      starArray[i].opacity = Math.random();
-    }
-  }
+  starArray.forEach(star => {
+    if (Math.random() > 0.99) star.opacity = Math.random();
+  });
 }
 
 // ===== Button =====
@@ -71,266 +70,168 @@ button.addEventListener("click", () => {
   if (button.textContent === "Click Me! ❤") {
     button.textContent = "loading...";
     fetch("send_mail.php")
-      .then((response) => {
-        if (response.ok) {
-          button.textContent = "Check Your Email 🙃";
-        } else {
-          console.error("Failed to send email");
-          button.textContent = "Error 😞";
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        button.textContent = "Error 😞";
-      });
+      .then(res => button.textContent = res.ok ? "Check Your Email 🙃" : "Error 😞")
+      .catch(() => button.textContent = "Error 😞");
   }
 });
 
-// ===== Text helpers =====
-function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
-  lines.forEach((line, index) => {
-    context.fillText(line, x, y + index * (fontSize + lineHeight));
+// ===== Text helper =====
+function drawLines(lines, x, y, fontSize, lineHeight) {
+  lines.forEach((line, i) => {
+    context.fillText(line, x, y + i * (fontSize + lineHeight));
   });
 }
 
+// ===== Animation =====
+let frameNumber = 0;
+let opacity = 0;
+let secondOpacity = 0;
+let thirdOpacity = 0;
+
 function drawText() {
-  // +20% readability boost
-  var fontSize = Math.min(36, window.innerWidth / 20);
-  var lineHeight = Math.round(fontSize * 0.34);
+  const fontSize = Math.min(36, window.innerWidth / 20);
+  const lineHeight = Math.round(fontSize * 0.34);
   const isMobile = window.innerWidth < 800;
 
   context.textAlign = "center";
-
-  // Softer glow for readability (prevents smearing)
   context.shadowColor = THEME.glow;
   context.shadowBlur = Math.round(fontSize * 0.45);
-  context.shadowOffsetX = 0;
-  context.shadowOffsetY = 0;
 
-  // Default font = romantic readable body
   context.font = `${fontSize}px ${FONTS.body}`;
 
-  // ----- 1 -----
-  if (frameNumber < 250) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
-  }
-  if (frameNumber >= 250 && frameNumber < 500) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
-  }
-  if (frameNumber == 500) opacity = 0;
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
 
-  // ----- 2 -----
-  if (frameNumber > 500 && frameNumber < 750) {
-    context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["amongst trillions and trillions of stars,", "over billions of years"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "amongst trillions and trillions of stars, over billions of years",
-        canvas.width / 2,
-        canvas.height / 2
-      );
+  const fade = v => Math.min(Math.max(v, 0), 1);
+
+  // --- Sequence ---
+  const show = (text, start, end) => {
+    if (frameNumber >= start && frameNumber < end) {
+      context.fillStyle = themedFill(fade(opacity));
+      context.fillText(text, cx, cy);
     }
-    opacity = opacity + 0.01;
-  }
-  if (frameNumber >= 750 && frameNumber < 1000) {
-    context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["amongst trillions and trillions of stars,", "over billions of years"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "amongst trillions and trillions of stars, over billions of years",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity - 0.01;
-  }
-  if (frameNumber == 1000) opacity = 0;
+  };
 
-  // ----- 3 -----
-  if (frameNumber > 1000 && frameNumber < 1250) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
-  }
-  if (frameNumber >= 1250 && frameNumber < 1500) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
-  }
-  if (frameNumber == 1500) opacity = 0;
+  if (frameNumber < 250) opacity += 0.01;
+  if (frameNumber >= 250 && frameNumber < 500) opacity -= 0.01;
 
-  // ----- 4 -----
-  if (frameNumber > 1500 && frameNumber < 1750) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
-  }
-  if (frameNumber >= 1750 && frameNumber < 2000) {
-    context.fillStyle = themedFill(opacity);
-    context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
-  }
-  if (frameNumber == 2000) opacity = 0;
+  show("everyday day I cannot believe how lucky I am", 0, 500);
 
-  // ----- 5 -----
-  if (frameNumber > 2000 && frameNumber < 2250) {
-    context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["and yet here I am to get the impossible", "chance to get to know you"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "and yet here I am to get the impossible chance to get to know you",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity + 0.01;
-  }
-  if (frameNumber >= 2250 && frameNumber < 2500) {
-    context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["and yet here I am to get the impossible", "chance to get to know you"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "and yet here I am to get the impossible chance to get to know you",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity - 0.01;
-  }
-  if (frameNumber == 2500) opacity = 0;
+  if (frameNumber === 500) opacity = 0;
 
-  // ----- Final message (forced 2-line break everywhere) -----
-  if (frameNumber > 2500 && frameNumber < 99999) {
+  if (frameNumber > 500 && frameNumber < 1000) {
     context.fillStyle = themedFill(opacity);
-    drawTextWithLineBreaks(
+    const lines = isMobile
+      ? ["amongst trillions and trillions of stars,", "over billions of years"]
+      : ["amongst trillions and trillions of stars, over billions of years"];
+    drawLines(lines, cx, cy, fontSize, lineHeight);
+    opacity += frameNumber < 750 ? 0.01 : -0.01;
+  }
+
+  if (frameNumber === 1000) opacity = 0;
+
+  if (frameNumber > 1000 && frameNumber < 1500) {
+    context.fillStyle = themedFill(opacity);
+    context.fillText("to be alive, and to get to spend this life with you", cx, cy);
+    opacity += frameNumber < 1250 ? 0.01 : -0.01;
+  }
+
+  if (frameNumber === 1500) opacity = 0;
+
+  if (frameNumber > 1500 && frameNumber < 2000) {
+    context.fillStyle = themedFill(opacity);
+    context.fillText("is so incredibly, unfathomably unlikely", cx, cy);
+    opacity += frameNumber < 1750 ? 0.01 : -0.01;
+  }
+
+  if (frameNumber === 2000) opacity = 0;
+
+  if (frameNumber > 2000 && frameNumber < 2500) {
+    context.fillStyle = themedFill(opacity);
+    const lines = isMobile
+      ? ["and yet here I am to get the impossible", "chance to get to know you"]
+      : ["and yet here I am to get the impossible chance to get to know you"];
+    drawLines(lines, cx, cy, fontSize, lineHeight);
+    opacity += frameNumber < 2250 ? 0.01 : -0.01;
+  }
+
+  if (frameNumber === 2500) opacity = 0;
+
+  if (frameNumber > 2500) {
+    context.fillStyle = themedFill(opacity);
+    drawLines(
       [
         "I love you so much my babee my theeksh🧡, more than",
-        "all the time and space in the universe can contain"
+        "all the time and space in the universe can contain",
       ],
-      canvas.width / 2,
-      canvas.height / 2,
+      cx,
+      cy,
       fontSize,
       lineHeight
     );
-    opacity = opacity + 0.01;
+    opacity += 0.01;
   }
 
-  // ----- Second line (more breathing room) -----
-  if (frameNumber >= 2750 && frameNumber < 99999) {
+  if (frameNumber >= 2750) {
     context.fillStyle = themedFill(secondOpacity);
+    const y2 = cy + Math.round(fontSize * 2.3);
     if (isMobile) {
-      drawTextWithLineBreaks(
+      drawLines(
         ["and I can't wait to spend all the time in", "the world to share that love with you!"],
-        canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 2.4),
+        cx,
+        y2,
         fontSize,
         lineHeight
       );
     } else {
       context.fillText(
         "and I can't wait to spend all the time in the world to share that love with you!",
-        canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 2.1)
+        cx,
+        y2
       );
     }
-    secondOpacity = secondOpacity + 0.01;
+    secondOpacity += 0.01;
   }
 
-  // ----- Ending: Great Vibes for romance + button under section 2 -----
-  if (frameNumber >= 3000 && frameNumber < 99999) {
+  if (frameNumber >= 3000) {
     context.fillStyle = themedFill(thirdOpacity);
 
-    const x = canvas.width / 2;
-    const startY = canvas.height / 2 + Math.round(fontSize * 4.3);
-    let y = startY;
+    let y = cy + Math.round(fontSize * 4.3);
 
-    // Section 1 (bigger, elegant)
     context.font = `${Math.round(fontSize * 1.55)}px ${FONTS.heading}`;
-    context.fillText("Happy Valentine's Day <3", x, y);
+    context.fillText("Happy Valentine's Day <3", cx, y);
 
-    // gap
     y += Math.round((fontSize + lineHeight) * 1.6);
 
-    // Section 2 (script, slightly smaller)
     context.font = `${Math.round(fontSize * 1.25)}px ${FONTS.heading}`;
-    const questionLines = isMobile
+    const q = isMobile
       ? ["and, the important question -", "Will you be my valentine?"]
       : ["and, the important question - Will you be my valentine?"];
 
-    // draw lines manually (so spacing matches heading font)
-    questionLines.forEach((line, idx) => {
-      context.fillText(line, x, y + idx * (Math.round(fontSize * 1.05) + lineHeight));
+    q.forEach((line, i) => {
+      context.fillText(line, cx, y + i * (Math.round(fontSize * 1.05) + lineHeight));
     });
 
-    // Button under section 2 (responsive)
-    const qLineStep = (Math.round(fontSize * 1.05) + lineHeight);
-    const questionHeight = questionLines.length * qLineStep;
-    const buttonY = y + questionHeight + Math.round(fontSize * 1.4);
-
+    const buttonY = y + q.length * (Math.round(fontSize * 1.05) + lineHeight) + Math.round(fontSize * 1.4);
     button.style.display = "block";
     button.style.top = `${buttonY}px`;
 
-    thirdOpacity = thirdOpacity + 0.01;
+    thirdOpacity += 0.01;
 
-    // Restore body font for safety (if anything else draws later)
     context.font = `${fontSize}px ${FONTS.body}`;
   }
 
-  // Reset shadow effect
-  context.shadowColor = "transparent";
   context.shadowBlur = 0;
-  context.shadowOffsetX = 0;
-  context.shadowOffsetY = 0;
 }
 
-// ===== Draw loop =====
+// ===== Main loop =====
 function draw() {
-  context.putImageData(baseFrame, 0, 0);
+  context.clearRect(0, 0, canvas.width, canvas.height);
   drawStars();
   updateStars();
   drawText();
-
-  if (frameNumber < 99999) frameNumber++;
-  window.requestAnimationFrame(draw);
+  frameNumber++;
+  requestAnimationFrame(draw);
 }
 
-// ===== Resize =====
-window.addEventListener("resize", function () {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  baseFrame = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
-});
-
-window.requestAnimationFrame(draw);
+draw();

@@ -79,21 +79,33 @@ button.addEventListener("click", () => {
   }
 });
 
-function drawTextWithLineBreaks(lines, x, y, fontSize, lineHeight) {
+/**
+ * Draw multi-line text centered at (x, y) where y is the baseline of line 1.
+ * Uses the CURRENT context.font, context.textAlign, shadow, fillStyle etc.
+ */
+function drawLines(lines, x, y, fontSize, lineHeight) {
   lines.forEach((line, index) => {
     context.fillText(line, x, y + index * (fontSize + lineHeight));
   });
 }
 
+/**
+ * Convenience: choose desktop vs mobile lines.
+ */
+function pickLines(isMobile, mobileLines, desktopLines) {
+  return isMobile ? mobileLines : desktopLines;
+}
+
 function drawText() {
-  // +20% readability boost
+  // readability
   var fontSize = Math.min(36, window.innerWidth / 20);
-  var lineHeight = Math.round(fontSize * 0.28);
+  var lineHeight = Math.round(fontSize * 0.32);
   const isMobile = window.innerWidth < 750;
 
-  // Default font for ALL text (Courgette)
-  context.font = `${fontSize}px "Courgette", cursive`;
+  // ONE font everywhere
+  context.font = `${fontSize}px "Cormorant Garamond", serif`;
   context.textAlign = "center";
+  context.textBaseline = "alphabetic";
 
   // glow effect (peach/rose)
   context.shadowColor = THEME.glow;
@@ -101,201 +113,241 @@ function drawText() {
   context.shadowOffsetX = 0;
   context.shadowOffsetY = 0;
 
+  const x = canvas.width / 2;
+  const y = canvas.height / 2;
+
+  // Helper: fade in/out single block of lines
+  function block(lines, startIn, startOut, endOut, alphaVarName) {
+    // We’ll just use global `opacity` like you did; keeping this simple.
+  }
+
   // 1
   if (frameNumber < 250) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["everyday I cannot believe", "how lucky I am"],
+        ["everyday I cannot believe how lucky I am"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity += 0.01;
   }
   if (frameNumber >= 250 && frameNumber < 500) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("everyday day I cannot believe how lucky I am", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["everyday I cannot believe", "how lucky I am"],
+        ["everyday I cannot believe how lucky I am"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity -= 0.01;
   }
   if (frameNumber == 500) opacity = 0;
 
   // 2
   if (frameNumber > 500 && frameNumber < 750) {
     context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
+    drawLines(
+      pickLines(
+        isMobile,
         ["amongst trillions and trillions of stars,", "over billions of years"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "amongst trillions and trillions of stars, over billions of years",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity + 0.01;
+        ["amongst trillions and trillions of stars, over billions of years"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity += 0.01;
   }
   if (frameNumber >= 750 && frameNumber < 1000) {
     context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
+    drawLines(
+      pickLines(
+        isMobile,
         ["amongst trillions and trillions of stars,", "over billions of years"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "amongst trillions and trillions of stars, over billions of years",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity - 0.01;
+        ["amongst trillions and trillions of stars, over billions of years"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity -= 0.01;
   }
   if (frameNumber == 1000) opacity = 0;
 
   // 3
   if (frameNumber > 1000 && frameNumber < 1250) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["to be alive,", "and to get to spend this life with you"],
+        ["to be alive, and to get to spend this life with you"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity += 0.01;
   }
   if (frameNumber >= 1250 && frameNumber < 1500) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("to be alive, and to get to spend this life with you", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["to be alive,", "and to get to spend this life with you"],
+        ["to be alive, and to get to spend this life with you"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity -= 0.01;
   }
   if (frameNumber == 1500) opacity = 0;
 
   // 4
   if (frameNumber > 1500 && frameNumber < 1750) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
-    opacity = opacity + 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["is so incredibly,", "unfathomably unlikely"],
+        ["is so incredibly, unfathomably unlikely"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity += 0.01;
   }
   if (frameNumber >= 1750 && frameNumber < 2000) {
     context.fillStyle = themedFill(opacity);
-    context.fillText("is so incredibly, unfathomably unlikely", canvas.width / 2, canvas.height / 2);
-    opacity = opacity - 0.01;
+    drawLines(
+      pickLines(
+        isMobile,
+        ["is so incredibly,", "unfathomably unlikely"],
+        ["is so incredibly, unfathomably unlikely"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity -= 0.01;
   }
   if (frameNumber == 2000) opacity = 0;
 
   // 5
   if (frameNumber > 2000 && frameNumber < 2250) {
     context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
+    drawLines(
+      pickLines(
+        isMobile,
         ["and yet here I am to get the impossible", "chance to get to know you"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "and yet here I am to get the impossible chance to get to know you",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity + 0.01;
+        ["and yet here I am to get the impossible chance to get to know you"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity += 0.01;
   }
   if (frameNumber >= 2250 && frameNumber < 2500) {
     context.fillStyle = themedFill(opacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
+    drawLines(
+      pickLines(
+        isMobile,
         ["and yet here I am to get the impossible", "chance to get to know you"],
-        canvas.width / 2,
-        canvas.height / 2,
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "and yet here I am to get the impossible chance to get to know you",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
-    opacity = opacity - 0.01;
+        ["and yet here I am to get the impossible chance to get to know you"]
+      ),
+      x,
+      y,
+      fontSize,
+      lineHeight
+    );
+    opacity -= 0.01;
   }
   if (frameNumber == 2500) opacity = 0;
 
-  // Final long message (stays on) — forced line break (same everywhere)
+  // Final long message (stays on) — consistent line breaks everywhere
   if (frameNumber > 2500 && frameNumber < 99999) {
     context.fillStyle = themedFill(opacity);
 
-    drawTextWithLineBreaks(
+    drawLines(
       [
         "I love you so much my babee my theeksh🧡, more than",
         "all the time and space in the universe can contain"
       ],
-      canvas.width / 2,
-      canvas.height / 2,
+      x,
+      y,
       fontSize,
       lineHeight
     );
 
-    opacity = opacity + 0.01;
+    opacity += 0.01;
   }
 
-  // Second line appears
+  // Second block appears (consistent breaks desktop/mobile)
   if (frameNumber >= 2750 && frameNumber < 99999) {
     context.fillStyle = themedFill(secondOpacity);
-    if (isMobile) {
-      drawTextWithLineBreaks(
-        ["and I can't wait to spend all the time in", "the world to share that love with you!"],
-        canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 2.1),
-        fontSize,
-        lineHeight
-      );
-    } else {
-      context.fillText(
-        "and I can't wait to spend all the time in the world to share that love with you!",
-        canvas.width / 2,
-        canvas.height / 2 + Math.round(fontSize * 1.7)
-      );
-    }
-    secondOpacity = secondOpacity + 0.01;
+
+    const secondLines = pickLines(
+      isMobile,
+      ["and I can't wait to spend all the time in", "the world to share that love with you!"],
+      ["and I can't wait to spend all the time in the world to share that love with you!"]
+    );
+
+    drawLines(secondLines, x, y + Math.round(fontSize * 1.9), fontSize, lineHeight);
+
+    secondOpacity += 0.01;
   }
 
-  // Ending: two sections in Allura + button under section 2
+  // Ending: keep SAME font (Cormorant Garamond) + consistent line breaks
   if (frameNumber >= 3000 && frameNumber < 99999) {
     context.fillStyle = themedFill(thirdOpacity);
 
-    const x = canvas.width / 2;
-    const startY = canvas.height / 2 + Math.round(fontSize * 3.8);
-    let y = startY;
+    const startY = y + Math.round(fontSize * 3.6);
 
-    // Use Allura ONLY for these ending sections
-    context.font = `${Math.round(fontSize * 1.15)}px "Allura", cursive`;
+    const end1 = ["Happy Valentine's Day <3"];
 
-    // Section 1
-    context.fillText("Happy Valentine's Day <3", x, y);
+    const end2 = pickLines(
+      isMobile,
+      ["and, the important question -", "Will you be my valentine?"],
+      ["and, the important question -", "Will you be my valentine?"] // keep the break even on desktop for consistency
+    );
 
-    // gap before section 2
-    y += Math.round((fontSize + lineHeight) * 1.5);
+    // Draw section 1
+    drawLines(end1, x, startY, fontSize, lineHeight);
 
-    // Section 2 (responsive)
-    const questionLines = isMobile
-      ? ["and, the important question -", "Will you be my valentine?"]
-      : ["and, the important question - Will you be my valentine?"];
+    // gap then section 2
+    const section2Y = startY + (fontSize + lineHeight) + Math.round(fontSize * 0.9);
+    drawLines(end2, x, section2Y, fontSize, lineHeight);
 
-    drawTextWithLineBreaks(questionLines, x, y, fontSize, lineHeight);
-
-    // Button under section 2
-    const questionHeight = questionLines.length * (fontSize + lineHeight);
-    const buttonY = y + questionHeight + Math.round(fontSize * 1.1);
+    // Button under section 2 (works for 1 or 2 lines)
+    const questionHeight = end2.length * (fontSize + lineHeight);
+    const buttonY = section2Y + questionHeight + Math.round(fontSize * 0.7);
 
     button.style.display = "block";
     button.style.top = `${buttonY}px`;
 
-    // Restore Courgette for safety (anything after this)
-    context.font = `${fontSize}px "Courgette", cursive`;
-
-    thirdOpacity = thirdOpacity + 0.01;
+    thirdOpacity += 0.01;
   }
 
   // Reset shadow effect

@@ -4,44 +4,30 @@ html, body {
   overflow: hidden;
   cursor: url('./images/pointer.png'), auto;
 
-  /* optional: default page font */
-  font-family: "Courgette", cursive;
-}
-
-canvas {
-  width: 100%;
-  height: auto;
-  background: radial-gradient(circle at 50% 40%, #2a1218 0%, #12070b 55%, #070407 100%);
+  font-family: "Cormorant Garamond", serif;
 }
 
 #valentinesButton {
   display: none;
   position: absolute;
 
-  background-color: #ffd6b8;   /* peach */
-  border: 2px solid #ffb38f;   /* warm rose border */
-  color: #3b0f17;              /* deep rose-brown text */
+  background-color: #ffd6b8;
+  border: 2px solid #ffb38f;
+  color: #3b0f17;
 
   cursor: pointer;
   height: 58px;
   font-size: 19px;
 
-  /* ✅ button should be Courgette */
-  font-family: "Courgette", cursive;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
 
   border-radius: 10px;
-  padding: 0 18px;   /* gives breathing room */
+  padding: 0 18px;
 
-  /* JS will override top dynamically, but keeping this is fine as a fallback */
   top: calc(50% + 150px);
   left: 50%;
   transform: translateX(-50%);
 
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-#valentinesButton:hover {
-  background-color: #ffb38f;  /* deeper peach */
-  color: #2a0b11;
-  transform: translateX(-50%) scale(1.03);
 }

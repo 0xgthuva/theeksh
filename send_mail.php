@@ -14,7 +14,7 @@ try {
     $mail->Host       = '0xgthuva.com';     // Outgoing Server
     $mail->SMTPAuth   = true;
     $mail->Username   = 'hello@0xgthuva.com';
-    $mail->Password   = 'YOUR_EMAIL_PASSWORD_HERE'; // <-- put the mailbox password here
+    $mail->Password   = 'kKHz~tiOzG)h'; // <-- put the mailbox password here
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // implicit TLS
     $mail->Port       = 465;
 

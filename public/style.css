@@ -37,23 +37,7 @@
     z-index: 1;
   }
   
-  body::before{
-    width: 220px;
-    height: 220px;
-    left: -40px;
-    top: -30px;
-    background-image: url("./images/rose-corner-1.png");
-    transform: rotate(-8deg);
-  }
   
-  body::after{
-    width: 260px;
-    height: 260px;
-    right: -60px;
-    bottom: -60px;
-    background-image: url("./images/rose-corner-2.png");
-    transform: rotate(10deg);
-  }
   
   canvas {
     width: 100%;

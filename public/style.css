@@ -8,27 +8,33 @@ html, body {
 canvas {
   width: 100%;
   height: auto;
-  background: #111;
+  background: radial-gradient(circle at 50% 40%, #2a1218 0%, #12070b 55%, #070407 100%);
 }
+
 
 #valentinesButton {
   display: none;
   position: absolute;
-  background-color: #2d2dff;
-  border: 2px solid #2d2dff;
-  color: #fff;
+
+  background-color: #ffd6b8;   /* peach */
+  border: 2px solid #ffb38f;   /* warm rose border */
+  color: #3b0f17;              /* deep rose-brown text */
+
   cursor: pointer;
   height: 50px;
   font-size: 16px;
   font-family: "Comic Sans MS", cursive, sans-serif;
   border-radius: 10px;
-  top: calc(50% + 150px); /* Adjust based on canvas height and text position */
+
+  top: calc(50% + 150px);
   left: 50%;
   transform: translateX(-50%);
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 #valentinesButton:hover {
-  background-color: #1f1faa;
-  color: #eee;
+  background-color: #ffb38f;  /* deeper peach */
+  color: #2a0b11;
+  transform: translateX(-50%) scale(1.03);
 }

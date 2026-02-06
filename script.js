@@ -293,7 +293,7 @@ function drawText() {
     drawLines(
       [
         "I love you so much my theeksh🧡",
-        ".."
+        "'"
       ],
       x,
       y,
